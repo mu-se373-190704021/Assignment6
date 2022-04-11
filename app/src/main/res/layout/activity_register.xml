@@ -7,6 +7,7 @@
     tools:context="com.ardadeniz.assignment6.LoginActivity">
 
 
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"

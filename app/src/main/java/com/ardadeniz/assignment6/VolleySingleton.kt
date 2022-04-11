@@ -5,6 +5,7 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 
+
 class VolleySingleton private constructor(context: Context) {
     private var mRequestQueue: RequestQueue
 

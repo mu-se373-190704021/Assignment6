@@ -5,6 +5,7 @@ package com.ardadeniz.assignment6
 import android.content.Context
 import android.content.Intent
 
+
 class SharedPrefManager private constructor(context: Context) {
 
     //this method will checker whether user is already logged in or not
