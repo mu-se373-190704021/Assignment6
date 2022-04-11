@@ -1,5 +1,6 @@
 package com.ardadeniz.assignment6
 
+
 import android.os.Bundle
 import android.content.Intent
 import android.text.TextUtils
@@ -15,6 +16,7 @@ import org.json.JSONObject
 import java.util.HashMap
 
 class LoginActivity : AppCompatActivity() {
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

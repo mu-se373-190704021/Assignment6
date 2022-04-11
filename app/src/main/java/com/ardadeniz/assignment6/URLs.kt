@@ -1,5 +1,6 @@
 package com.ardadeniz.assignment6
 
+
 object URLs {
 
     /*val URL_LOGIN = "http://192.168.1.5:80/indexlogin.php/"
