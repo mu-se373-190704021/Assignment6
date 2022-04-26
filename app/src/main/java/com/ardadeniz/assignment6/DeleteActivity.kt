@@ -15,11 +15,11 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.HashMap
 
-class LoginActivity : AppCompatActivity() {
+class DeleteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_delete)
 
         if (SharedPrefManager.getInstance(this).isLoggedIn) {
             finish()
@@ -31,17 +31,17 @@ class LoginActivity : AppCompatActivity() {
 
         //calling the method userLogin() for login the user
         btnLogin.setOnClickListener(View.OnClickListener {
-            userLogin()
+            userDelete()
         })
 
         //if user presses on textview it call the activity RegisterActivity
         tvRegister.setOnClickListener(View.OnClickListener {
             finish()
-            startActivity(Intent(applicationContext, RegisterActivity::class.java))
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
         })
     }
 
-    private fun userLogin() {
+    private fun userDelete() {
 
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val etName = findViewById<EditText>(R.id.etUserName)
@@ -62,58 +62,19 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        //val URLLogin = URLs.URL_LOGIN + "?username="+username+"&password="+password
-        //println(URLLogin)
-        //if everything is fine
-        val stringRequest = object : StringRequest(Request.Method.POST, URLs.URL_LOGIN,
-            Response.Listener { response ->
-                progressBar.visibility = View.GONE
-
-                try {
-                    //converting response to json object
-                    val obj = JSONObject(response)
-
-                    //if no error in response
-                    if (!obj.getBoolean("error")) {
-                        Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
-
-                        //getting the user from the response
-                        val userJson = obj.getJSONObject("user")
-
-                        //creating a new user object
-                        val user = User(
-                            userJson.getInt("id"),
-                            userJson.getString("username"),
-                            userJson.getString("email"),
-                            userJson.getString("gender")
-                        )
-
-                        //storing the user in shared preferences
-                        SharedPrefManager.getInstance(applicationContext).userLogin(user)
-                        //starting the MainActivity
-                        finish()
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
-                    } else {
-                        Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_SHORT).show()
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            },
+        val stringRequest = object : StringRequest(Request.Method.POST, URLs.URL_DELETE,
+            Response.Listener { response -> progressBar.visibility = View.GONE },
             Response.ErrorListener { error -> Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show() }) {
             @Throws(AuthFailureError::class)
-            override fun getParams(): Map<String, String> {
+            override fun getParams(): Map<String, String>{
                 val params = HashMap<String, String>()
                 params["username"] = username
                 params["password"] = password
                 return params
             }
         }
-
+        Toast.makeText(applicationContext,"Account deleted successfully...",Toast.LENGTH_SHORT).show()
+        startActivity(Intent(applicationContext, LoginActivity::class.java))
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
-    }
-
-    fun openDeletePage(view: View){
-        startActivity(Intent(applicationContext, DeleteActivity::class.java))
     }
 }
